@@ -1,5 +1,4 @@
 import ft_linear_regression as ft
-import pandas as pd
 
 
 def main():
