@@ -1,6 +1,13 @@
 run: venv/bin/activate
 	echo "Running the application"
-	./venv/bin/python3 main.py
+
+predict: venv/bin/activate
+	echo "Running the prediction program"
+	./venv/bin/python3 predict_program.py
+
+train: venv/bin/activate
+	echo "Running the training program"
+	./venv/bin/python3 train_program.py
 
 venv/bin/activate: requirements.txt
 	test -d venv || python3 -m venv venv
