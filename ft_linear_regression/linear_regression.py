@@ -1,5 +1,5 @@
 import pandas as pd
-from .rescaling import minmax_normalization
+from .rescaling import zscore_normalization
 
 
 def linear_regression(data_path: str):
@@ -16,5 +16,5 @@ def linear_regression(data_path: str):
     data = pd.read_csv(data_path, dtype=float, usecols=["km", "price"])
 
     # Normalize the data
-    data_normalized = minmax_normalization(data)
+    data_normalized = zscore_normalization(data)
     print(data_normalized)
