@@ -16,4 +16,7 @@ venv/bin/activate: requirements.txt
 clean:
 	rm -rf venv
 
+test: venv/bin/activate
+	./venv/bin/pytest tests
+
 .PHONY: run clean
