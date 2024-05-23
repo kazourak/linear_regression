@@ -1,7 +1,7 @@
 run: venv/bin/activate
 	echo "Running the application"
 
-predict: venv/bin/activate
+predict:
 	echo "Running the prediction program"
 	./venv/bin/python3 predict_program.py
 
