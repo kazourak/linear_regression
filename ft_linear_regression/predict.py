@@ -1,13 +1,20 @@
-from .data import get_thetas
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-def predict(thetas: tuple[float, float]):
-    mileage = ''
+def predict(thetas: tuple[float, float], mileage_to_predict: int = None):
+    mileage = 0
     theta0, theta1 = thetas
 
-    while not mileage.isdigit():
-        mileage = input("Enter the mileage of the car: ")
-        if not mileage.isdigit():
-            print("Please enter a valid number.")
+    if mileage_to_predict is not None:
+        mileage = mileage_to_predict
+    else:
+        _mileage = input("Please enter the mileage of the car you want to predict: ")
+        while not _mileage.isdigit():
+            _mileage = input("Please enter a valid mileage: ")
+        mileage = int(_mileage)
+
+    logger.debug(f"Theta0: {theta0}, Theta1: {theta1} and mileage: {mileage}")
 
     print(f"The estimated price of the car is: {theta0 + theta1 * int(mileage)}")
