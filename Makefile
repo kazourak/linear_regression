@@ -5,11 +5,11 @@ predict:
 	echo "Running the prediction program"
 	./venv/bin/python3 predict_program.py
 
-train: venv/bin/activate
+train:
 	echo "Running the training program"
 	./venv/bin/python3 train_program.py
 	
-evaluate: venv/bin/activate
+evaluate:
 	echo "Running the evaluate program"
 	./venv/bin/python3 evaluate_program.py
 	
@@ -20,7 +20,7 @@ venv/bin/activate: requirements.txt
 clean:
 	rm -rf venv
 
-test: venv/bin/activate
+test:
 	./venv/bin/pytest tests
 
-.PHONY: run clean
+.PHONY: run clean predict train evaluate test
