@@ -1,20 +1,68 @@
 import pandas as pd
-from .rescaling import zscore_normalization
+import sys
+from .predict import predict
+from .data import set_thetas
+import matplotlib.pyplot as plt
 
 
-def linear_regression(data_path: str):
+def unnormalize_thetas(data: pd.DataFrame, data_normalized: pd.DataFrame, theta: tuple[float, float]) -> tuple[float, float]:
     """
-    Perform linear regression on the data
+    Unnormalize the thetas.
+    Formula used:
+    t1 = std(price) / std(km)
+    t0 = mean(price) + std(price) * (theta0 - (theta1 * (mean(km) / std(km)))
+    """
+    t1 = data_normalized['price'].std() / data_normalized['km'].std()
+    t0 = data['price'].mean() + data['price'].std() * (theta[0] - (theta[1] * (data['km'].mean() / data['km'].std())))
+    return t0, t1
 
-    The CSV file must contain two columns named ``'km'`` and ``'price'``
+
+def plot_data(data: pd.DataFrame, theta: tuple[float, float]):
+    plt.plot(data['km'], data['price'], 'ro')
+    plt.plot(data['km'], theta[0] + theta[1] * data['km'], 'b')
+    plt.xlabel('km')
+    plt.ylabel('price')
+    plt.title('Linear regression')
+    plt.show()
+
+
+def gradient_descent(data: pd.DataFrame, theta: list, learning_rate: float):
+    """
+    Perform gradient descent on the data.
+    """
+    m = len(data)
+    thetas = (theta[0], theta[1])
+
+    # Update theta
+    theta0 = (learning_rate * (1 / m) * sum([predict(thetas, data['km'][i]) - data['price'][i] for i in range(m)]))
+    theta1 = (learning_rate * (1 / m) * sum([(predict(thetas, data['km'][i]) - data['price'][i]) * data['km'][i] for i in range(m)]))
+    return theta0, theta1
+
+
+def linear_regression(data: pd.DataFrame, data_normalized: pd.DataFrame):
+    """
+    Perform linear regression on the data.
+
     Parameters
     ----------
-    data_path : str
-        The path to the data
+    data : DataFrame
+        The original data
+    data_normalized : DataFrame
+        The normalized data
     """
-    # Load the data
-    data = pd.read_csv(data_path, dtype=float, usecols=["km", "price"])
+    theta = [0, 0]
+    learning_rate = 0.1
 
-    # Normalize the data
-    data_normalized = zscore_normalization(data)
-    print(data_normalized)
+    for _ in range(10000):
+        thetas_tmp = gradient_descent(data_normalized, theta, learning_rate)
+        theta[0] = theta[0] - thetas_tmp[0]
+        theta[1] = theta[1] - thetas_tmp[1]
+
+    t1 = theta[1] * (data['price'].std() / data['km'].std())
+    t0 = data['price'].mean() + data['price'].std() * (theta[0] - (theta[1] * (data['km'].mean() / data['km'].std())))
+
+    if len(sys.argv) == 2 and sys.argv[1] == "--plot":
+        plot_data(data, (t0, t1))
+    print(f"theta0: {t0}, theta1: {t1}")
+
+    set_thetas(t0, t1)
