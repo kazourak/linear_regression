@@ -43,7 +43,8 @@ def main():
     # Use the mileage provided as argument if it is provided
     mileage = args.mileage[0] if args.mileage is not None else None
 
-    ft.predict(thetas, mileage)
+    prediction = ft.predict(thetas, mileage)
+    print(f"The predicted price is {prediction}")
 
 
 if __name__ == "__main__":
