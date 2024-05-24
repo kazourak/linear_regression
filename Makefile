@@ -20,7 +20,4 @@ venv/bin/activate: requirements.txt
 clean:
 	rm -rf venv
 
-test:
-	./venv/bin/pytest tests
-
-.PHONY: run clean predict train evaluate test
+.PHONY: run clean predict train evaluate
