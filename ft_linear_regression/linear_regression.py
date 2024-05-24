@@ -61,8 +61,9 @@ def linear_regression(data: pd.DataFrame, data_normalized: pd.DataFrame):
     t1 = theta[1] * (data['price'].std() / data['km'].std())
     t0 = data['price'].mean() + data['price'].std() * (theta[0] - (theta[1] * (data['km'].mean() / data['km'].std())))
 
+    # Plot the data and the linear regression line
     if len(sys.argv) == 2 and sys.argv[1] == "--plot":
         plot_data(data, (t0, t1))
-    print(f"theta0: {t0}, theta1: {t1}")
 
+    print(f"theta0: {t0}, theta1: {t1}")
     set_thetas(t0, t1)
