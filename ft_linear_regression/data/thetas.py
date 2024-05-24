@@ -8,11 +8,12 @@ def get_thetas() -> tuple[float, float]:
     """
     try:
         coef_ = joblib.load("thetas.pkl")
+
         return coef_[0], coef_[1]
     except FileNotFoundError:
-        print("No thetas found, please train with 'make train' first.")
+        print("thetas.py: Thetas file not found")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"thetas.py: An error occurred: {e}")
     return 0, 0
 
 
@@ -25,4 +26,4 @@ def set_thetas(theta0: float, theta1: float):
     try:
         joblib.dump((theta0, theta1), "thetas.pkl")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"thetas.py: An error occurred: {e}")

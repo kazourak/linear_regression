@@ -1,8 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
-
-
 def predict(thetas: tuple[float, float], mileage_to_predict: int = None):
     mileage = 0
     theta0, theta1 = thetas
@@ -14,7 +9,5 @@ def predict(thetas: tuple[float, float], mileage_to_predict: int = None):
         while not _mileage.isdigit():
             _mileage = input("Please enter a valid mileage: ")
         mileage = int(_mileage)
-
-    logger.debug(f"Theta0: {theta0}, Theta1: {theta1} and mileage: {mileage}")
 
     print(f"The estimated price of the car is: {theta0 + theta1 * int(mileage)}")
