@@ -3,3 +3,6 @@ from .rescaling import zscore_normalization
 from .data import get_thetas, set_thetas
 from .linear_regression import linear_regression
 from .predict import predict
+from .precision import rmse
+from .precision import mae
+from .precision import determine_r2
